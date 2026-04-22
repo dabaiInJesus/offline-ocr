@@ -1,0 +1,72 @@
+{
+  "name": "offline-ocr",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "electron:dev": "cross-env NODE_ENV=development concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
+    "electron:build": "vue-tsc -b && vite build && electron-builder",
+    "install:pnpm": "pnpm install"
+  },
+  "dependencies": {
+    "vue": "^3.5.32"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.2",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "@vue/tsconfig": "^0.9.1",
+    "autoprefixer": "^10.5.0",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^41.2.1",
+    "electron-builder": "^26.8.1",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^3.4.19",
+    "tesseract.js": "^7.0.0",
+    "typescript": "~6.0.2",
+    "vite": "^8.0.4",
+    "vue-tsc": "^3.2.6",
+    "wait-on": "^9.0.5"
+  },
+  "build": {
+    "appId": "com.offlineocr.app",
+    "productName": "离线OCR识别工具",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "electron/**/*",
+      "node_modules/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "public/favicon.svg"
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "icon": "public/favicon.svg"
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "icon": "public/favicon.svg"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
