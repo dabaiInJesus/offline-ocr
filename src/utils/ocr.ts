@@ -36,30 +36,34 @@ const LANGUAGE_GROUPS = {
 }
 
 // PSM (Page Segmentation Mode) 页面分割模式
-export enum PSMMode {
-  OSD_ONLY = 0,           // 仅方向和脚本检测
-  AUTO_OSD = 1,           // 自动页面分割 + OSD
-  AUTO_ONLY = 2,          // 仅自动页面分割（无OSD）
-  AUTO = 3,               // 完全自动页面分割（默认）
-  SINGLE_COLUMN = 4,      // 假设单列文本
-  SINGLE_BLOCK_VERTICAL = 5, // 假设单个垂直对齐文本块
-  SINGLE_BLOCK = 6,       // 假设单个文本块
-  SINGLE_LINE = 7,        // 假设单行文本
-  SINGLE_WORD = 8,        // 假设单个单词
-  CIRCLE_WORD = 9,        // 假设圆形中的单个单词
-  SINGLE_CHAR = 10,       // 假设单个字符
-  SPARSE_TEXT = 11,       // 查找尽可能多的文本
-  SPARSE_TEXT_OSD = 12,   // 稀疏文本 + OSD
-  RAW_LINE = 13           // 原始行，保留布局信息
-}
+export const PSMMode = {
+  OSD_ONLY: 0,           // 仅方向和脚本检测
+  AUTO_OSD: 1,           // 自动页面分割 + OSD
+  AUTO_ONLY: 2,          // 仅自动页面分割（无OSD）
+  AUTO: 3,               // 完全自动页面分割（默认）
+  SINGLE_COLUMN: 4,      // 假设单列文本
+  SINGLE_BLOCK_VERTICAL: 5, // 假设单个垂直对齐文本块
+  SINGLE_BLOCK: 6,       // 假设单个文本块
+  SINGLE_LINE: 7,        // 假设单行文本
+  SINGLE_WORD: 8,        // 假设单个单词
+  CIRCLE_WORD: 9,        // 假设圆形中的单个单词
+  SINGLE_CHAR: 10,       // 假设单个字符
+  SPARSE_TEXT: 11,       // 查找尽可能多的文本
+  SPARSE_TEXT_OSD: 12,   // 稀疏文本 + OSD
+  RAW_LINE: 13           // 原始行，保留布局信息
+} as const
+
+export type PSMMode = typeof PSMMode[keyof typeof PSMMode]
 
 // OEM (OCR Engine Mode) OCR 引擎模式
-export enum OEMMode {
-  LEGACY_ONLY = 0,        // 仅使用旧版引擎
-  LSTM_ONLY = 1,          // 仅使用LSTM神经网络引擎（推荐）
-  TESSERACT_LSTM_COMBINED = 2, // 两者结合
-  DEFAULT = 3             // 默认（基于可用内容）
-}
+export const OEMMode = {
+  LEGACY_ONLY: 0,        // 仅使用旧版引擎
+  LSTM_ONLY: 1,          // 仅使用LSTM神经网络引擎（推荐）
+  TESSERACT_LSTM_COMBINED: 2, // 两者结合
+  DEFAULT: 3             // 默认（基于可用内容）
+} as const
+
+export type OEMMode = typeof OEMMode[keyof typeof OEMMode]
 
 export interface OCRResult {
   text: string

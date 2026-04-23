@@ -43,12 +43,56 @@ npm run electron:dev
 
 ### 构建生产版本
 
-```bash
-# 构建 Web 版本
-npm run build
+#### Windows 版本（在 Windows 上运行）
 
-# 构建 Electron 桌面应用安装包
-npm run electron:build
+**方式一：使用 npm 命令**
+```bash
+npm run electron:build:win
+```
+
+**方式二：使用批处理脚本**
+```bash
+build-windows.bat
+```
+
+#### Linux 版本（在 WSL2 中运行）
+
+**方式一：使用 npm 命令（自动调用 WSL2）**
+```bash
+npm run electron:build:linux
+```
+
+**方式二：在 WSL2 中手动运行**
+```bash
+# 进入 WSL2
+wsl
+
+# 进入项目目录（Windows 文件系统在 /mnt/d/ 下）
+cd /mnt/d/code/offline-ocr
+
+# 运行打包脚本
+./build-linux.sh
+
+# 或者使用 npm 命令
+npm run electron:build:linux:wsl
+```
+
+**方式三：使用一键脚本**
+```bash
+# 在 Git Bash 或 WSL2 中运行
+./build-linux.sh
+```
+
+#### macOS 版本（在 macOS 上运行）
+
+```bash
+npm run electron:build:mac
+```
+
+#### 所有平台（需要对应系统的构建环境）
+
+```bash
+npm run electron:build:all
 ```
 
 构建完成后，安装包将在 `release` 目录中生成。

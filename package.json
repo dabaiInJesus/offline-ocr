@@ -1,7 +1,9 @@
 {
   "name": "offline-ocr",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "离线OCR识别工具 - 支持26国语言的桌面端OCR应用",
+  "author": "Offline OCR Team",
   "type": "module",
   "main": "electron/main.js",
   "scripts": {
@@ -10,6 +12,10 @@
     "preview": "vite preview",
     "electron:dev": "cross-env NODE_ENV=development concurrently \"npm run dev\" \"wait-on http://localhost:5173 && electron .\"",
     "electron:build": "vue-tsc -b && vite build && electron-builder",
+    "electron:build:win": "vue-tsc -b && vite build && electron-builder --win",
+    "electron:build:linux": "wsl bash -c 'cd /mnt/d/code/offline-ocr && npm run electron:build:linux:wsl'",
+    "electron:build:mac": "vue-tsc -b && vite build && electron-builder --mac",
+    "electron:build:all": "vue-tsc -b && vite build && electron-builder --win --linux --mac",
     "install:pnpm": "pnpm install"
   },
   "dependencies": {
@@ -36,7 +42,8 @@
     "appId": "com.offlineocr.app",
     "productName": "离线OCR识别工具",
     "directories": {
-      "output": "release"
+      "output": "release",
+      "buildResources": "public"
     },
     "files": [
       "dist/**/*",
@@ -44,29 +51,77 @@
       "node_modules/**/*",
       "package.json"
     ],
+    "asar": true,
+    "compression": "maximum",
     "win": {
       "target": [
-        "nsis"
+        {
+          "target": "nsis",
+          "arch": ["x64", "ia32"]
+        },
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64"]
+        }
       ],
-      "icon": "public/favicon.svg"
+      "artifactName": "${productName}-${version}-win-${arch}.${ext}"
     },
     "mac": {
       "target": [
-        "dmg"
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64", "arm64"]
+        }
       ],
-      "icon": "public/favicon.svg"
+      "category": "public.app-category.productivity",
+      "artifactName": "${productName}-${version}-mac-${arch}.${ext}"
     },
     "linux": {
       "target": [
-        "AppImage"
+        {
+          "target": "AppImage",
+          "arch": ["x64"]
+        },
+        {
+          "target": "deb",
+          "arch": ["x64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["x64"]
+        }
       ],
-      "icon": "public/favicon.svg"
+      "category": "Utility",
+      "artifactName": "${productName}-${version}-linux-${arch}.${ext}"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
-      "createStartMenuShortcut": true
+      "createStartMenuShortcut": true,
+      "shortcutName": "离线OCR识别工具"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     }
   }
 }

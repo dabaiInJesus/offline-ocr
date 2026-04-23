@@ -9,11 +9,17 @@ const progress = ref<OCRProgress>({ status: '', progress: 0 })
 const result = ref<OCRResult | null>(null)
 const selectedLang = ref<string>('') // 空字符串表示自动检测
 
-// 高级选项
-const showAdvanced = ref(false)
+// 高级选项（暂时隐藏，保留以备将来使用）
+// const showAdvanced = ref(false)
 const enablePreprocess = ref(true) // 默认启用图像预处理
 const selectedPSM = ref<PSMMode | ''>('') // 页面分割模式
 const selectedOEM = ref<OEMMode | ''>('') // OCR引擎模式
+const fileInput = ref<HTMLInputElement>()
+
+// 触发文件选择
+const triggerFileSelect = () => {
+  fileInput.value?.click()
+}
 
 // 处理文件选择
 const handleFileSelect = (event: Event) => {
@@ -197,7 +203,7 @@ const hasImage = computed(() => !!imagePreview.value)
       <!-- 图片上传区域 -->
     <div
       class="group relative border-3 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl p-6 md:p-8 text-center hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all duration-300 cursor-pointer mb-4"
-      @click="$refs.fileInput.click()"
+      @click="triggerFileSelect"
     >
       <input
         ref="fileInput"
