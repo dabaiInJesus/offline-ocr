@@ -40,7 +40,7 @@
   },
   "build": {
     "appId": "com.offlineocr.app",
-    "productName": "离线OCR识别工具",
+    "productName": "Offline OCR",
     "directories": {
       "output": "release",
       "buildResources": "public"
@@ -107,7 +107,7 @@
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "离线OCR识别工具"
+      "shortcutName": "Offline OCR"
     },
     "dmg": {
       "contents": [
