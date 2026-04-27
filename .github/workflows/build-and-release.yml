@@ -18,6 +18,10 @@ jobs:
   build-windows:
     runs-on: windows-latest
     continue-on-error: true
+
+  build-macos:
+    runs-on: macos-latest
+    continue-on-error: true
     
     steps:
       - name: Checkout code
