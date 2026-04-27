@@ -13,13 +13,18 @@ const imageList = ref<ImageItem[]>([])
 const isRecognizing = ref(false)
 const selectedLang = ref<string>('')
 const currentIndex = ref(0)
-const totalCount = ref(0)
 
-// 高级选项
-const showAdvanced = ref(false)
+// 高级选项（暂时隐藏，保留以备将来使用）
+// const showAdvanced = ref(false)
 const enablePreprocess = ref(true) // 默认启用图像预处理
 const selectedPSM = ref<PSMMode | ''>('')
 const selectedOEM = ref<OEMMode | ''>('')
+const fileInput = ref<HTMLInputElement>()
+
+// 触发文件选择
+const triggerFileSelect = () => {
+  fileInput.value?.click()
+}
 
 // 处理文件选择
 const handleFileSelect = (event: Event) => {
@@ -54,7 +59,6 @@ const handleBatchRecognize = async () => {
   if (imageList.value.length === 0) return
   
   isRecognizing.value = true
-  totalCount.value = imageList.value.length
   currentIndex.value = 0
   
   try {
@@ -79,7 +83,7 @@ const handleBatchRecognize = async () => {
     const results = await recognizeBatch(
       files,
       options,
-      (index, total, result) => {
+      (index, _total, _result) => {
         currentIndex.value = index
         if (imageList.value[index - 1]) {
           imageList.value[index - 1].result = result
@@ -150,8 +154,8 @@ const handleExportAll = () => {
 const hasImages = computed(() => imageList.value.length > 0)
 const completedCount = computed(() => imageList.value.filter(item => item.status === 'completed').length)
 const progressPercent = computed(() => {
-  if (totalCount.value === 0) return 0
-  return Math.round((currentIndex.value / totalCount.value) * 100)
+  if (imageList.value.length === 0) return 0
+  return Math.round((currentIndex.value / imageList.value.length) * 100)
 })
 </script>
 
@@ -258,7 +262,7 @@ const progressPercent = computed(() => {
     <!-- 图片上传区域 -->
     <div
       class="group relative border-3 border-dashed border-gray-300 dark:border-gray-600 rounded-2xl p-6 md:p-8 text-center hover:border-blue-500 dark:hover:border-blue-400 hover:bg-blue-50/30 dark:hover:bg-blue-900/10 transition-all duration-300 cursor-pointer mb-4 flex-shrink-0"
-      @click="$refs.fileInput.click()"
+      @click="triggerFileSelect"
     >
       <input
         ref="fileInput"
@@ -330,7 +334,7 @@ const progressPercent = computed(() => {
             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
           </svg>
-          处理进度: {{ currentIndex }} / {{ totalCount }}
+          处理进度: {{ currentIndex }} / {{ imageList.length }}
         </span>
         <span class="text-blue-600 dark:text-blue-400 font-bold">{{ progressPercent }}%</span>
       </div>
