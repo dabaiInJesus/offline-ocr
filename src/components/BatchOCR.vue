@@ -86,7 +86,7 @@ const handleBatchRecognize = async () => {
       (index, _total, _result) => {
         currentIndex.value = index
         if (imageList.value[index - 1]) {
-          imageList.value[index - 1].result = result
+          imageList.value[index - 1].result = _result
           imageList.value[index - 1].status = 'completed'
         }
       }
@@ -111,7 +111,6 @@ const handleBatchRecognize = async () => {
 const handleClearAll = () => {
   imageList.value = []
   currentIndex.value = 0
-  totalCount.value = 0
 }
 
 // 复制单个结果
